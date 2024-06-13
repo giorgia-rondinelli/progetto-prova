@@ -9,9 +9,16 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Document</title>
 </head>
+@include('partials.header')
+
+
+
 
 <body>
     @yield('content')
 </body>
+
+
+@include('partials.footer')
 
 </html>
