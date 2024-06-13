@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cartoons', function (Blueprint $table) {
             $table->id();
             $table->string('title', 150);
+            $table->string('slug', 160);
             $table->year('year');
             $table->string('rating', 30);
             $table->integer('runtime_in_minutes');
