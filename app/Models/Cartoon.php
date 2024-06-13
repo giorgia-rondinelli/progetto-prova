@@ -15,6 +15,6 @@ class Cartoon extends Model
         'rating',
         'runtime_in_minutes',
         'episodes',
-        'images'
+        'image'
     ];
 }
