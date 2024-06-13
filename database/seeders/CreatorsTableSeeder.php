@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\functions\Helper;
+use App\Models\Creator;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Cartoon;
-use App\functions\Helper;
 
-class cartoonTableSeeder extends Seeder
+class CreatorsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -26,19 +26,20 @@ class cartoonTableSeeder extends Seeder
 
         // Combina i dati dei due set in un unico array
         $all_data = array_merge((array)$data, (array)$data_2);
-        // dd($data);
 
-        foreach ($all_data as $cartoon) {
-            $newCartoon = new Cartoon();
-            $newCartoon->title = $cartoon->title;
-            $newCartoon->slug = Helper::generateSlug($newCartoon->title, Cartoon::class);
-            $newCartoon->year = $cartoon->year;
-            $newCartoon->rating = $cartoon->rating;
-            $newCartoon->runtime_in_minutes = $cartoon->runtime_in_minutes;
-            $newCartoon->episodes = $cartoon->episodes;
-            $newCartoon->image = $cartoon->image;
-            // dd($newCartoon);
-            $newCartoon->save();
+        $all_creator = Creator::all()->pluck('name')->toArray();
+
+        foreach($all_data as $cartoon) {
+            foreach($cartoon->creator as $s_creator) {
+                if (!in_array($s_creator, $all_creator)) {
+                    $newCreator = new Creator();
+                    $newCreator->name = $s_creator;
+                    $newCreator->slug = Helper::generateSlug($newCreator->name, Creator::class);
+                    $newCreator->save();
+
+                    $all_creator[] = $s_creator;
+                }
+            }
         }
     }
 }
